@@ -22,7 +22,7 @@ router.get('/summonerInfo/:summonerId', (req, res, next) => {
 
 
 
-router.get('/getGameInfo/:gameId', (req, res, next) => {
+router.get('/gameInfo/:gameId', (req, res, next) => {
     let gameId = req.params.gameId;
     GET('/match/v4/matches/'+gameId, function(error, response, body){
         let info_jason = JSON.parse(body);
