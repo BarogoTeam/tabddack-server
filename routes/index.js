@@ -10,5 +10,18 @@ router.get('/getChallenger', (req, res, next) => {
       res.send(info_jason);
   })
 })
- 
+
+
+router.get('/getGameInfo/:gameId', (req, res, next) => {
+    let gameId = req.params.gameId;
+    GET('/match/v4/matches/'+gameId, function(error, response, body){
+        let info_jason = JSON.parse(body);
+        let key = Object.keys(info_jason);
+        res.send(info_jason);
+    })
+})
+
+
+
+
 module.exports = router;
