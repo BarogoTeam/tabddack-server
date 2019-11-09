@@ -1,0 +1,16 @@
+{
+  "name": "tabddack",
+  "version": "1.0.0",
+  "description": "tabless is bronze",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express.js": "^1.0.0",
+    "request": "^2.88.0",
+    "urlencode": "^1.1.0"
+  }
+}
