@@ -19,7 +19,9 @@
     "url": "git+https://github.com/BarogoTeam/tabddack-server.git"
   },
   "babel": {
-    "presets": ["env"]
+    "presets": [
+      "env"
+    ]
   },
   "author": "",
   "license": "ISC",
