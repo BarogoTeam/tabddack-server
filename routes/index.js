@@ -1,4 +1,5 @@
 import {GET} from './request.js'
+import * as timeline from '../services/matchTimeline'
 let conf = require('./../conf.json')
 let express = require('express');
 let router = express.Router();
@@ -33,6 +34,14 @@ router.get('/gameInfo/:gameId', (req, res, next) => {
     })
   })
 
+router.get('/gameItemBuild/:gameId', (req, res, next) => {
+    let gameId = req.params.gameId;
+    GET('/match/v4/timelines/by-match/'+gameId, function(error, response, body){
+        let matchTimelineInfo = JSON.parse(body);
+        let itemBuildInfo = timeline.getItemBuild(matchTimelineInfo);
+        res.send(itemBuildInfo);
+    })
+})
 
 
 
