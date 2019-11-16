@@ -1,0 +1,12 @@
+[
+    { "key": 1, "name": "Cleanse", "nameKR": "정화"},
+    { "key": 3, "name": "Exhaust", "nameKR": "탈진"},
+    { "key": 4, "name": "Flash", "nameKR": "점멸"},
+    { "key": 6, "name": "Ghost", "nameKR": "유체화"},
+    { "key": 7, "name": "Heal", "nameKR": "회복"},
+    { "key": 11, "name": "Smite", "nameKR": "강타"},
+    { "key": 12, "name": "Teleport", "nameKR": "텔레포트"},
+    { "key": 13, "name": "Clarity", "nameKR": "총명"},
+    { "key": 14, "name": "Ignite", "nameKR": "점화"},
+    { "key": 21, "name": "Barrier", "nameKR": "쉴드"}
+]
