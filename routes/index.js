@@ -21,7 +21,14 @@ router.get('/summonerInfo/:summonerId', (req, res, next) => {
     })
 })
 
-
+router.get('/matches/:accountId', (req, res, next) => {
+    var summornerId = req.params.accountId;
+    GET('/lol/match/v4/matchlists/by-account/' + summornerId, function(error, response, body) {
+        let info_jason = JSON.parse(body);
+        let key = Object.keys(info_jason);
+        res.send(info_jason);
+    })
+})
 
 router.get('/gameInfo/:gameId', (req, res, next) => {
     let gameId = req.params.gameId;
