@@ -14,3 +14,8 @@ request(url, function(error, response, body){
     res.send(info_jason);
 });
 }
+
+function get_matches(){
+    var url = config.url + "/lol/match/v4/matchlists/by-account/{encryptedAccountId}" + config.key;
+    return get(url);
+};
