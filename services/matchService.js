@@ -34,3 +34,16 @@ export function getSkillTree(timelineData, participantId){
 
     return skillTree;
 }
+
+
+export function getWinTeam(teams){
+
+    let winTeamId;
+    for(let team of teams){
+        if(team.win == 'Win'){
+            winTeamId = team.teamId;
+        }
+    }
+
+    return winTeamId;
+}
