@@ -10,24 +10,38 @@ GET(`${url}/api/versions.json`, function(error, response, body) {
     console.log(`leagueoflegends api version - ${version}`);
 
     GET(`${url}/cdn/${version}/data/${language}/item.json`, function(error, response, body) {
-        item = JSON.parse(body).data;
         console.log('succes item data');
-    })
-    GET(`${url}/cdn/${version}/data/${language}/champion.json`, function(error, response, body) {
-        let champData = JSON.parse(body).data;
-        champ = {};
-        for(let key in champData){
-            champ[champData[key].key] = champData[key];
-        }
-        console.log('succes champion data');
+        item = JSON.parse(body).data;
     })
     GET(`${url}/cdn/${version}/data/${language}/summoner.json`, function(error, response, body) {
+        console.log('succes spell data');
         let spellData = JSON.parse(body).data;
         spell = {};
         for(let key in spellData){
             spell[spellData[key].key] = spellData[key];
         }
-        console.log('succes spell data');
+    })
+    GET(`${url}/cdn/${version}/data/${language}/champion.json`, function(error, response, body) {
+        console.log('succes champions data');
+        let champData = JSON.parse(body).data;
+        champ = {};
+        let champCount = 0;
+        let allChampCount = 0;
+        for(let key in champData){
+            allChampCount++;
+            champ[key] = champData[key];
+            GET(`${url}/cdn/${version}/data/${language}/champion/${key}.json`, function(error, response, body) {
+                console.log(`succes champion data - ${key} (${++champCount} / ${allChampCount})`);
+                let champInfo = JSON.parse(body).data[key];
+                champ[key].skillMasterLevels = {
+                    'q': champInfo.spells[0].maxrank,
+                    'w': champInfo.spells[1].maxrank,
+                    'e': champInfo.spells[2].maxrank,
+                    'r': champInfo.spells[3].maxrank,
+                }
+                console.log(champ[key])
+            })
+        }
     })
 })
 
