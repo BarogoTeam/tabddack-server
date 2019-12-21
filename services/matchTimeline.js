@@ -32,9 +32,9 @@ export const getItemBuild = (matchTimelineInfo) => {
         //     return a - b;
         // })
         for (let i=0; i<participants[p].itemBuild.length; i++) {
-            console.log(participants[p].itemBuild[i]);
+            //console.log(participants[p].itemBuild[i]);
         }
-        console.log('======================');
+        //console.log('======================');
     }
 
 }

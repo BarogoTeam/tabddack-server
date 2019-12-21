@@ -1,4 +1,7 @@
 {
+    "userSchedule": "0 0 * * *",
+    "gameSchedule": "30 * * * *",
+
     "url": "https://kr.api.riotgames.com/lol",
-    "api_key": "RGAPI-e0f09f40-f177-4aee-90c0-5de14148d61f"
+    "api_key": "RGAPI-5515b101-b39c-4965-b1de-7674e0bc76cf"
 }
