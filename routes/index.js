@@ -1,6 +1,7 @@
 import {GET} from './request.js'
 import * as timeline from '../services/matchTimeline'
 import * as matchSearvice from '../services/matchService'
+import * as userService from '../services/userService'
 let conf = require('./../conf.json')
 let express = require('express');
 let router = express.Router();
@@ -169,6 +170,12 @@ router.get('/gameItemBuild/:gameId', (req, res, next) => {
         let itemBuildInfo = timeline.getItemBuild(matchTimelineInfo);
         res.send(itemBuildInfo);
     })
+})
+
+
+
+router.get('/getUserList', (req, res, next) => {
+    res.send(userService.getUserList());
 })
 
 
