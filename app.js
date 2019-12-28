@@ -30,6 +30,7 @@ cron.schedule('*/5 * * * * * *', async () => {
     gameService.setAnalysisData({
         match: matchData,
         timeline: timelineData,
+        ban: matchData.bansInfo
     });
 })
 
