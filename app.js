@@ -1,3 +1,5 @@
+import * as gameInfoUtils from "./utils/gameinfo";
+
 const userService = require('./services/userService')
 const gameService = require('./services/gameService')
 
@@ -9,7 +11,8 @@ const port = 3000;
 
 //init
 userService.setUserList();
-setTimeout(()=>{gameService.setGameList();}, 10000);
+gameInfoUtils.getGameInfo();
+setTimeout(gameService.setGameList, 10000);
 
 //schedule
 const cron = require('node-cron')
