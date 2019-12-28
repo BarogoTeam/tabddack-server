@@ -47,7 +47,7 @@ export const getGameMatchInfo = async (gameId) => {
     gameMatchInfo.matchInfo = {
         gameId: matchInfo.gameId,
         wins: matchService.getWinTeam(matchInfo.teams),
-        gameDuration: matchInfo.gameDuration
+        duration: matchInfo.gameDuration
     };
 
     let banArr = [];
