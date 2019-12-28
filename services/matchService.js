@@ -37,7 +37,6 @@ export function getSkillTree(timelineData, participantId){
 
 
 export function getWinTeam(teams){
-
     let winTeamId;
     for(let team of teams){
         if(team.win == 'Win'){

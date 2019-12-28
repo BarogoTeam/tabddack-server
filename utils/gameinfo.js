@@ -39,7 +39,6 @@ GET(`${url}/api/versions.json`, function(error, response, body) {
                     'e': champInfo.spells[2].maxrank,
                     'r': champInfo.spells[3].maxrank,
                 }
-                console.log(champ[key])
             })
         }
     })
