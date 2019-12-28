@@ -47,10 +47,26 @@ export const getGameMatchInfo = async (gameId) => {
     gameMatchInfo.matchInfo = {
         gameId: matchInfo.gameId,
         wins: matchService.getWinTeam(matchInfo.teams),
-        gameDuration: matchInfo.gameDuration
+        duration: matchInfo.gameDuration
     };
 
-    gameMatchInfo.bansInfo = [matchInfo.teams[0].bans, matchInfo.teams[1].bans];
+    let banArr = [];
+    let bansInfo = [];
+    for (let banBlueTeam of matchInfo.teams[0].bans){
+        banArr.push(banBlueTeam);
+    }
+    for (let banPupleTeam of matchInfo.teams[1].bans){
+        banArr.push(banPupleTeam);
+    }
+    for (let ban of banArr){
+        bansInfo.push({
+            gameId: matchInfo.gameId,
+            champId: ban.championId
+        });
+    }
+
+    gameMatchInfo.bansInfo = [];
+    gameMatchInfo.bansInfo.push(bansInfo);
 
     gameMatchInfo.participantInfo = [];
     for(let part of matchInfo.participants) {
@@ -102,7 +118,6 @@ export const getGameMatchInfo = async (gameId) => {
     }
     return gameMatchInfo;
 }
-
 
 export const getTimeLineInfo = async (gameId) => {
     const timelineInfo = await getTimelineInfo(gameId);

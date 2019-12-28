@@ -46,3 +46,25 @@ export function getWinTeam(teams){
 
     return winTeamId;
 }
+
+export function getSkillMasterTree(skillTree, skillMasterLevels){
+
+    let skillMaster = "";
+    let nowSkillLevels = { "Q" : 0, "W" : 0, "E" : 0, "R" : 0 };
+
+    for(const s of skillTree) {
+        nowSkillLevels[s]++;
+        if(nowSkillLevels[s] === skillMasterLevels[s])
+            skillMaster += s;
+    }
+
+    if(skillMaster.length === 3){
+        for(const s in skillMasterLevels) {
+            if (skillMaster.indexOf(s) === -1)
+                skillMaster += s;
+        }
+    }
+
+    return skillMaster;
+
+}
