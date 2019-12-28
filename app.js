@@ -28,8 +28,10 @@ cron.schedule('*/5 * * * * * *', async () => {
     const matchData = await gameService.getGameMatchInfo(id);
     const timelineData = await gameService.getTimeLineInfo(id);
     gameService.setAnalysisData({
-        match: matchData,
+        matchinfo: matchData,
         timeline: timelineData,
+
+        match: gameMatchInfo.matchInfo,
     });
 })
 
