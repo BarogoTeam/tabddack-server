@@ -39,7 +39,7 @@ export const getGameInfo = async () => {
     const getChampData = async () => {
         const response = await fetch(`${url}/cdn/${apiVersion}/data/${language}/champion.json`, options);
         const json = await response.json();
-        champ = json.data;
+        let initChamp = json.data;
 
         const getChampInfo = async (champName) => {
             const response = await fetch (`${url}/cdn/${apiVersion}/data/${language}/champion/${champName}.json`, options);
@@ -48,14 +48,19 @@ export const getGameInfo = async () => {
             return json.data[champName];
         };
 
-        const champInfoList = Object.keys(champ).map(key => getChampInfo(key));
+        const champInfoList = Object.keys(initChamp).map(key => getChampInfo(key));
+        const defaultSkillLevel = require('./defaultSkillLevel.json');
 
         for await (const champInfo of champInfoList) {
-            champ[champInfo.id].skillMasterLevels = {
+            champ[champInfo.key] = initChamp[champInfo.id];
+            champ[champInfo.key].skillMasterLevels = {
                 'q': champInfo.spells[0].maxrank,
                 'w': champInfo.spells[1].maxrank,
                 'e': champInfo.spells[2].maxrank,
                 'r': champInfo.spells[3].maxrank,
+            }
+            champ[champInfo.key].defaultSkillLevel = defaultSkillLevel[champInfo.id] || {
+                'q':0,'w':0,'e':0,'r':0,
             }
         }
 
