@@ -14,6 +14,10 @@ export const setUserList = async () => {
     });
 
     userList = oldUserList.concat(leagueInfo.entries);
+
+    //개발용 
+    //userList = [userList[0]];
+    
     const accountIdList = await getAccountIdList(userList.filter(user => !(user.accountId)));
     userList.forEach(user => user.accountId = accountIdList[user.summonerId]);
 };
