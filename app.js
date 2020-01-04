@@ -32,7 +32,7 @@ cron.schedule('*/5 * * * * * *', async () => {
     const timelineData = await gameService.getTimeLineInfo(id);
     gameService.setAnalysisData({
         ban: matchData.bansInfo,
-        match: gameMatchInfo.matchInfo
+        match: matchData.matchInfo
     });
 })
 
