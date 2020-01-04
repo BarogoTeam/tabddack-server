@@ -2,6 +2,9 @@ let request = require("request");
 let conf = require('./../conf.json')
 
 export const GET = (url, callback) => {
-    let makeUrl = conf['url'] + url + '?api_key=' + conf['api_key']
-    request(makeUrl, callback);
-}
+    request(url, callback);
+};
+
+export const makeRiotUrl = (url) => {
+    return conf['url'] + url + '?api_key=' + conf['api_key'];
+};
