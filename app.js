@@ -27,10 +27,14 @@ cron.schedule(conf['gameSchedule'], () => {
 cron.schedule('*/5 * * * * * *', async () => {
     const id = gameService.dequeueGame();
     if(!id) return;
-    if(matchData.bansInfo.length === 0) return;
     console.log('Make game data - ' + id);
     const matchData = await gameService.getGameMatchInfo(id);
     const timelineData = await gameService.getTimeLineInfo(id);
+    
+    if(matchData.bansInfo.length === 0){
+        console.log('Make game data - ' + id + ' is not lank game');
+        return;
+    }
     
     let participant = matchData.participantInfo;
     for(let i in participant){
