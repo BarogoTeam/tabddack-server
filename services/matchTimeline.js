@@ -17,15 +17,11 @@ export const getItemBuild = (matchTimelineInfo) => {
         let events = frame.events;
         for (let event of events) {
             if (event.type === 'ITEM_PURCHASED') {
-                //console.log(event.participantId + ' / ' + event.type + ' / ' + event.itemId + '(' + gameinfo.getItem(event.itemId).name + ')');
                 if (event.timestamp <= '60000') {
                     participants[event.participantId].startItem.push(event.itemId);
                 }
-                if (1) { // 코어템이면 coreItem에 push 하도록 변경
-                    participants[event.participantId].coreItem.push(event.itemId);
-                }
+                participants[event.participantId].coreItem.push(event.itemId);
             } else if (event.type === 'ITEM_DESTROYED' || event.type === 'ITEM_SOLD') {
-                //console.log(event.participantId + ' / ' + event.type + ' / ' + event.itemId + '(' + gameinfo.getItem(event.itemId).name + ')');
                 if (event.timestamp <= '60000') {
                     let startItemIndex = participants[event.participantId].startItem.indexOf(event.itemId);
                     participants[event.participantId].startItem.splice(startItemIndex, 1);
@@ -33,21 +29,20 @@ export const getItemBuild = (matchTimelineInfo) => {
                 let itemIndex = participants[event.participantId].coreItem.indexOf(event.itemId);
                 participants[event.participantId].coreItem.splice(itemIndex, 1);
             } else if (event.type === 'ITEM_UNDO') {
-                //console.log(event.participantId + ' / ' + event.type + ' / ' + event.afterId + '(' + gameinfo.getItem(event.afterId).name + ')' + ' / ' + event.beforeId + '(' + gameinfo.getItem(event.beforeId).name + ')');
                 let itemIndex;
                 if(event.afterId !== 0) {
-                    if (event.timestamp <= '60000') {
-                        participants[event.participantId].startItem.push(event.afterId);
-                    }
-                    participants[event.participantId].coreItem.push(event.afterId);
-                }
-                if(event.beforeId !== 0) {
                     if (event.timestamp <= '60000') {
                         itemIndex = participants[event.participantId].startItem.indexOf(event.beforeId);
                         participants[event.participantId].startItem.splice(itemIndex, 1);
                     }
                     itemIndex = participants[event.participantId].coreItem.indexOf(event.beforeId);
                     participants[event.participantId].coreItem.splice(itemIndex, 1);
+                }
+                if(event.beforeId !== 0) {
+                    if (event.timestamp <= '60000') {
+                        participants[event.participantId].startItem.push(event.afterId);
+                    }
+                    participants[event.participantId].coreItem.push(event.afterId);
                 }
             } else if (event.type === 'SKILL_LEVEL_UP') {
                 participants[event.participantId].skillTree += skillList[event.skillSlot - 1];
@@ -56,14 +51,13 @@ export const getItemBuild = (matchTimelineInfo) => {
     }
 
     for (let p=1; p<=10; p++) {
-        // 같은 거 통계내기 위해 정렬
-        // participants[p].startItem.sort((a, b) => {
-        //     return a - b;
-        // })
+        let coreItemList = [];
         for (let i=0; i<participants[p].coreItem.length; i++) {
-            //console.log(participants[p].coreItem[i] + '(' + gameinfo.getItem(participants[p].coreItem[i]).name + ')');
+            if(gameinfo.getItem(participants[p].coreItem[i]).coreYn === 'Y') {
+                coreItemList.push(participants[p].coreItem[i]);
+            }
         }
-        //console.log('======================');
+        participants[p].coreItem = coreItemList;
     }
 
     // 리소스 변환 (개발용)
