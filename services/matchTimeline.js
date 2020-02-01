@@ -32,17 +32,17 @@ export const getItemBuild = (matchTimelineInfo) => {
                 let itemIndex;
                 if(event.afterId !== 0) {
                     if (event.timestamp <= '60000') {
-                        itemIndex = participants[event.participantId].startItem.indexOf(event.beforeId);
+                        itemIndex = participants[event.participantId].startItem.indexOf(event.afterId);
                         participants[event.participantId].startItem.splice(itemIndex, 1);
                     }
-                    itemIndex = participants[event.participantId].coreItem.indexOf(event.beforeId);
+                    itemIndex = participants[event.participantId].coreItem.indexOf(event.afterId);
                     participants[event.participantId].coreItem.splice(itemIndex, 1);
                 }
                 if(event.beforeId !== 0) {
                     if (event.timestamp <= '60000') {
-                        participants[event.participantId].startItem.push(event.afterId);
+                        participants[event.participantId].startItem.push(event.beforeId);
                     }
-                    participants[event.participantId].coreItem.push(event.afterId);
+                    participants[event.participantId].coreItem.push(event.beforeId);
                 }
             } else if (event.type === 'SKILL_LEVEL_UP') {
                 participants[event.participantId].skillTree += skillList[event.skillSlot - 1];
