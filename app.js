@@ -8,6 +8,7 @@ const conf = require('./conf.json')
 const express = require('express');
 const app = express();
 const port = 3000;
+app.use(express.json());
 
 //init
 userService.setUserList();
@@ -30,9 +31,24 @@ cron.schedule('*/5 * * * * * *', async () => {
     console.log('Make game data - ' + id);
     const matchData = await gameService.getGameMatchInfo(id);
     const timelineData = await gameService.getTimeLineInfo(id);
+    
+    if(matchData.bansInfo.length === 0){
+        console.log('Make game data - ' + id + ' is not lank game');
+        return;
+    }
+    
+    let participant = matchData.participantInfo;
+    for(let i in participant){
+        participant[i] = {
+            ...participant[i],
+            ...timelineData.itemBuild[Number(i)+1],
+        }
+    }
+
     gameService.setAnalysisData({
         ban: matchData.bansInfo,
-        match: matchData.matchInfo
+        match: matchData.matchInfo,
+        participant: participant,
     });
 })
 
