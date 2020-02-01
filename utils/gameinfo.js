@@ -54,13 +54,13 @@ export const getGameInfo = async () => {
         for await (const champInfo of champInfoList) {
             champ[champInfo.key] = initChamp[champInfo.id];
             champ[champInfo.key].skillMasterLevels = {
-                'q': champInfo.spells[0].maxrank,
-                'w': champInfo.spells[1].maxrank,
-                'e': champInfo.spells[2].maxrank,
-                'r': champInfo.spells[3].maxrank,
+                'Q': champInfo.spells[0].maxrank,
+                'W': champInfo.spells[1].maxrank,
+                'E': champInfo.spells[2].maxrank,
+                'R': champInfo.spells[3].maxrank,
             }
             champ[champInfo.key].defaultSkillLevel = defaultSkillLevel[champInfo.id] || {
-                'q':0,'w':0,'e':0,'r':0,
+                'Q':0,'W':0,'E':0,'R':0,
             }
         }
 

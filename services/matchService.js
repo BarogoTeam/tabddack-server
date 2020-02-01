@@ -1,3 +1,5 @@
+import {getChamp} from "../utils/gameinfo";
+
 export function getParticipants(matchData) {
     let participantInfo = [];
     for(let part of matchData.participants) {
@@ -77,10 +79,9 @@ export function getWinTeam(teams){
     return winTeamId;
 }
 
-export function getSkillMasterTree(skillTree, skillMasterLevels){
-
+export function getSkillMasterTree(champId, skillTree, skillMasterLevels){
     let skillMaster = "";
-    let nowSkillLevels = { "Q" : 0, "W" : 0, "E" : 0, "R" : 0 };
+    let nowSkillLevels = Object.assign({}, getChamp(champId).defaultSkillLevel);
 
     for(const s of skillTree) {
         nowSkillLevels[s]++;
@@ -96,5 +97,4 @@ export function getSkillMasterTree(skillTree, skillMasterLevels){
     }
 
     return skillMaster;
-
 }
