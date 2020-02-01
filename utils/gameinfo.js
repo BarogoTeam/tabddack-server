@@ -4,9 +4,9 @@ import fetch from 'node-fetch'
 const url = 'https://ddragon.leagueoflegends.com';
 const language = 'ko_KR';
 
-let champ = {};
-let item = {};
-let spell = {};
+let champList = {};
+let itemList = {};
+let spellList = {};
 
 export const getGameInfo = async () => {
     const options = {
@@ -22,16 +22,42 @@ export const getGameInfo = async () => {
     const getItemData = async () => {
         const response = await fetch(`${url}/cdn/${apiVersion}/data/${language}/item.json`, options);
         const json = await response.json();
-        item = json.data;
+        itemList = json.data;
+
+        for(let key in itemList) {
+            let item = itemList[key];
+            if(item.tags.includes('Boots') || item.tags.includes('Trinket') || item.tags.includes('Consumable')) { // 신발 장신구 소모품(와드,포션) 제외
+                item.coreYn = 'N';
+            } else if(item.requiredAlly && item.requiredAlly == 'Ornn') { // 오른 강화템 제외
+                item.coreYn = 'N';
+            } else if(item.from && item.into == null) { // 하위 미존재 상위 존재 시 코어
+                item.coreYn = 'Y';
+            } else if(isIntoOrnnItem(item)) { // 오른 강화 가능템인지 확인 (무한의 대검 등)
+                item.coreYn = 'Y';
+            }  else {
+                item.coreYn = 'N';
+            }
+        }
         console.log('success item data');
     };
+
+    const isIntoOrnnItem = (item) => {
+        if(item.from && item.into) {
+            if(item.into.length == 1) {
+                if(itemList[item.into[0]].requiredAlly == 'Ornn') {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     const getSpellData = async () => {
         const response = await fetch(`${url}/cdn/${apiVersion}/data/${language}/summoner.json`, options);
         const json = await response.json();
         const spellData = json.data;
         for(let key in spellData){
-            spell[spellData[key].key] = spellData[key];
+            spellList[spellData[key].key] = spellData[key];
         }
         console.log('success spell data');
     };
@@ -52,14 +78,14 @@ export const getGameInfo = async () => {
         const defaultSkillLevel = require('./defaultSkillLevel.json');
 
         for await (const champInfo of champInfoList) {
-            champ[champInfo.key] = initChamp[champInfo.id];
-            champ[champInfo.key].skillMasterLevels = {
+            champList[champInfo.key] = initChamp[champInfo.id];
+            champList[champInfo.key].skillMasterLevels = {
                 'q': champInfo.spells[0].maxrank,
                 'w': champInfo.spells[1].maxrank,
                 'e': champInfo.spells[2].maxrank,
                 'r': champInfo.spells[3].maxrank,
             }
-            champ[champInfo.key].defaultSkillLevel = defaultSkillLevel[champInfo.id] || {
+            champList[champInfo.key].defaultSkillLevel = defaultSkillLevel[champInfo.id] || {
                 'q':0,'w':0,'e':0,'r':0,
             }
         }
@@ -75,13 +101,13 @@ export const getGameInfo = async () => {
 };
 
 export const getSpell = (id) => {
-    return spell[id];
+    return spellList[id];
 };
 
 export const getItem = (id) => {
-    return item[id];
+    return itemList[id];
 };
 
 export const getChamp = (id) => {
-    return champ[id];
+    return champList[id];
 };
